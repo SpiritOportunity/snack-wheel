@@ -1,31 +1,37 @@
-body {
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-  background: linear-gradient(135deg, #fff1eb, #ace0f9);
-  text-align: center;
-  padding: 40px;
+wheel-area {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin: 30px auto;
 }
 
-h1 {
-  color: #333;
-  font-size: 36px;
+#wheel {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 8px solid #333;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background: conic-gradient(
+    #ffadad 0deg 45deg,
+    #ffd6a5 45deg 90deg,
+    #fdffb6 90deg 135deg,
+    #caffbf 135deg 180deg,
+    #9bf6ff 180deg 225deg,
+    #a0c4ff 225deg 270deg,
+    #bdb2ff 270deg 315deg,
+    #ffc6ff 315deg 360deg
+  );
 }
 
-p {
-  font-size: 18px;
-  color: #555;
-}
-
-button {
-  margin-top: 20px;
-  padding: 12px 24px;
-  font-size: 18px;
-  border: none;
-  border-radius: 25px;
-  background-color: #ff8fab;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #ff5d8f;
+.pointer {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 24px solid #333;
+  z-index: 2;
 }
