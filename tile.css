@@ -1,0 +1,31 @@
+body {
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+  background: linear-gradient(135deg, #fff1eb, #ace0f9);
+  text-align: center;
+  padding: 40px;
+}
+
+h1 {
+  color: #333;
+  font-size: 36px;
+}
+
+p {
+  font-size: 18px;
+  color: #555;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  background-color: #ff8fab;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ff5d8f;
+}
