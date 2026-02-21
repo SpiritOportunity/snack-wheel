@@ -16,18 +16,6 @@ body {
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  border: 10px solid #333;
-  background: conic-gradient(
-    #ffadad 0deg 45deg,
-    #ffd6a5 45deg 90deg,
-    #fdffb6 90deg 135deg,
-    #caffbf 135deg 180deg,
-    #9bf6ff 180deg 225deg,
-    #a0c4ff 225deg 270deg,
-    #bdb2ff 270deg 315deg,
-    #ffc6ff 315deg 360deg
-  );
-  transition: transform 3s ease-out;
 }
 .pointer {
   position: absolute;
