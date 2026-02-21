@@ -11,13 +11,15 @@ const cx = canvas.width / 2;
 const cy = canvas.height / 2;
 const radius = cx - 5;
 
-let currentAngle = 0;
+let rotation = 0;
+let animating = false;
 
 function drawWheel(angle) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < numSegments; i++) {
     const start = angle + i * arc;
     const end = start + arc;
+    const mid = start + arc / 2;
 
     // Draw segment
     ctx.beginPath();
@@ -30,14 +32,20 @@ function drawWheel(angle) {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Draw label
+    // Draw label — flip text if on left half to avoid upside-down labels
     ctx.save();
     ctx.translate(cx, cy);
-    ctx.rotate(start + arc / 2);
-    ctx.textAlign = "right";
+    ctx.rotate(mid);
+    const onLeftHalf = Math.cos(mid) < 0;
+    if (onLeftHalf) {
+      ctx.rotate(Math.PI);
+      ctx.textAlign = "left";
+    } else {
+      ctx.textAlign = "right";
+    }
     ctx.fillStyle = "#333";
     ctx.font = "bold 12px system-ui";
-    ctx.fillText(snacks[i], radius - 8, 4);
+    ctx.fillText(snacks[i], onLeftHalf ? -(radius - 8) * -1 : radius - 8, 4);
     ctx.restore();
   }
 
@@ -50,9 +58,6 @@ function drawWheel(angle) {
 }
 
 drawWheel(0);
-
-let rotation = 0;
-let animating = false;
 
 spinBtn.addEventListener("click", () => {
   if (animating) return;
@@ -70,16 +75,17 @@ spinBtn.addEventListener("click", () => {
     const elapsed = now - start;
     const progress = Math.min(elapsed / duration, 1);
     const ease = 1 - Math.pow(1 - progress, 3);
-    currentAngle = startAngle + totalRotation * ease;
-    drawWheel(currentAngle);
+    rotation = startAngle + totalRotation * ease;
+    drawWheel(rotation);
 
     if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
-      rotation = currentAngle;
       animating = false;
-      const normalized = (2 * Math.PI - (rotation % (2 * Math.PI))) % (2 * Math.PI);
-      const index = Math.floor(normalized / arc) % numSegments;
+      // Pointer is at top = -π/2, find which segment sits there
+      const pointerAngle = -Math.PI / 2;
+      const angleAtPointer = ((pointerAngle - rotation) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+      const index = Math.floor(angleAtPointer / arc) % numSegments;
       result.textContent = `You got: ${snacks[index]}!`;
     }
   }
