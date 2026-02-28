@@ -4,7 +4,7 @@ const spinBtn = document.getElementById("spinBtn");
 const result = document.getElementById("result");
 
 const snacks = ["seaweed/sushi", "chocolate", "chips", " fruits", "yogurt", "cookie", "protein bar", "spin again"];
-const colors = ["#B45253","#8C1007","#B12C00","#8A0000","#8A2D3B","#8C1007","#BF3131","#B82132"];
+const colors = ["#7B0000","#A31515","#8B0000","#C0392B","#6E1010","#B22222","#96281B","#922B21"];
 const numSegments = snacks.length;
 const arc = (2 * Math.PI) / numSegments;
 const cx = canvas.width / 2;
@@ -28,7 +28,7 @@ function drawWheel(angle) {
     ctx.arc(cx, cy, radius, startAngle, endAngle);
     ctx.fillStyle = colors[i];
     ctx.fill();
-    ctx.strokeStyle = "#333";
+    ctx.strokeStyle = "#2a2a2a";
     ctx.lineWidth = 2;
     ctx.stroke();
 
@@ -38,7 +38,7 @@ function drawWheel(angle) {
     ctx.rotate(centerAngle); // Rotate to the middle of the slice
     
     ctx.textAlign = "right"; // Align text to the outer edge
-    ctx.fillStyle = "#333";
+    ctx.fillStyle = "#f0f0f0";
     ctx.font = "bold 14px sans-serif";
     
     // Draw the text slightly inside the outer rim (radius - 15)
@@ -49,7 +49,7 @@ function drawWheel(angle) {
   // 3. Draw Center Pin
   ctx.beginPath();
   ctx.arc(cx, cy, 10, 0, 2 * Math.PI);
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#2a2a2a";
   ctx.fill();
 }
 
