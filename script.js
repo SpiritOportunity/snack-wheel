@@ -9,84 +9,86 @@ const numSegments = snacks.length;
 const arc = (2 * Math.PI) / numSegments;
 const cx = canvas.width / 2;
 const cy = canvas.height / 2;
-const radius = cx - 5;
+const radius = cx - 10;
 
-let rotation = 0;
+let currentRotation = 0;
 let animating = false;
 
 function drawWheel(angle) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < numSegments; i++) {
-    const start = angle + i * arc;
-    const end = start + arc;
-    const mid = start + arc / 2;
 
-    // Draw segment
+  for (let i = 0; i < numSegments; i++) {
+    const startAngle = angle + i * arc;
+    const endAngle = startAngle + arc;
+    const centerAngle = startAngle + arc / 2;
+
+    // 1. Draw the Slice
     ctx.beginPath();
     ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, start, end);
-    ctx.closePath();
+    ctx.arc(cx, cy, radius, startAngle, endAngle);
     ctx.fillStyle = colors[i];
     ctx.fill();
     ctx.strokeStyle = "#333";
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Draw label — flip text if on left half to avoid upside-down labels
+    // 2. Draw the Text (The Fix)
     ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(mid);
-    const onLeftHalf = Math.cos(mid) < 0;
-    if (onLeftHalf) {
-      ctx.rotate(Math.PI);
-      ctx.textAlign = "left";
-    } else {
-      ctx.textAlign = "right";
-    }
+    ctx.translate(cx, cy); // Move to center
+    ctx.rotate(centerAngle); // Rotate to the middle of the slice
+    
+    ctx.textAlign = "right"; // Align text to the outer edge
     ctx.fillStyle = "#333";
-    ctx.font = "bold 12px system-ui";
-    ctx.fillText(snacks[i], onLeftHalf ? -(radius - 8) * -1 : radius - 8, 4);
+    ctx.font = "bold 14px sans-serif";
+    
+    // Draw the text slightly inside the outer rim (radius - 15)
+    ctx.fillText(snacks[i], radius - 15, 5); 
     ctx.restore();
   }
 
-  // Outer border
+  // 3. Draw Center Pin
   ctx.beginPath();
-  ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
-  ctx.strokeStyle = "#333";
-  ctx.lineWidth = 10;
-  ctx.stroke();
+  ctx.arc(cx, cy, 10, 0, 2 * Math.PI);
+  ctx.fillStyle = "#333";
+  ctx.fill();
 }
 
-drawWheel(0);
+// Initial Render
+drawWheel(currentRotation);
 
 spinBtn.addEventListener("click", () => {
   if (animating) return;
   animating = true;
   result.textContent = "";
 
+  const spins = (4 + Math.floor(Math.random() * 4)) * 2 * Math.PI;
   const extra = Math.random() * 2 * Math.PI;
-  const spins = (3 + Math.floor(Math.random() * 3)) * 2 * Math.PI;
   const totalRotation = spins + extra;
   const duration = 3000;
   const start = performance.now();
-  const startAngle = rotation;
+  const startAngle = currentRotation;
 
   function animate(now) {
     const elapsed = now - start;
     const progress = Math.min(elapsed / duration, 1);
+    
+    // Smooth deceleration
     const ease = 1 - Math.pow(1 - progress, 3);
-    rotation = startAngle + totalRotation * ease;
-    drawWheel(rotation);
+    
+    currentRotation = startAngle + totalRotation * ease;
+    drawWheel(currentRotation);
 
     if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
       animating = false;
-      // Pointer is at top = -π/2, find which segment sits there
+      
+      // Calculate winner based on the TOP pointer (-90 degrees)
       const pointerAngle = -Math.PI / 2;
-      const angleAtPointer = ((pointerAngle - rotation) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
-      const index = Math.floor(angleAtPointer / arc) % numSegments;
-      result.textContent = `You got: ${snacks[index]}!`;
+      const relativeRotation = (pointerAngle - currentRotation) % (2 * Math.PI);
+      const winningIndex = Math.floor(((relativeRotation + 2 * Math.PI) % (2 * Math.PI)) / arc);
+      
+      result.textContent = `You got: ${snacks[winningIndex]}!`;
     }
   }
 
