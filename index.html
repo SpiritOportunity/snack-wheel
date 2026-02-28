@@ -4,17 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Snack Wheel 🍿</title>
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Snack Wheel 🎡</h1>
-  <p>Spin the wheel to choose your snack!</p>
-  <div class="wheel-area">
-    <div class="pointer"></div>
-    <canvas id="wheel" width="280" height="280"></canvas>
+  <div class="container">
+    <h1>Snack Wheel 🎡</h1>
+    <p>Spin the wheel to choose your snack!</p>
+    
+    <div class="wheel-area">
+      <div class="pointer">▼</div>
+      <canvas id="wheel" width="300" height="300"></canvas>
+    </div>
+    
+    <button id="spinBtn">SPIN</button>
+    <h2 id="result"></h2>
   </div>
-  <button id="spinBtn">Spin</button>
-  <h2 id="result"></h2>
-  <script src="./script.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
