@@ -10,16 +10,30 @@
   <div class="container">
     <h1>Snack Wheel 🎡</h1>
     <p>Spin the wheel to choose your snack!</p>
-    
+
+    <div class="controls">
+      <div class="sound-picker">
+        <label for="soundSelect">🎵 Sound Style</label>
+        <select id="soundSelect">
+          <option value="classic">🔔 Classic</option>
+          <option value="retro">👾 Retro 8-bit</option>
+          <option value="soft">🎵 Soft Bells</option>
+          <option value="drum">🥁 Drum Kit</option>
+        </select>
+      </div>
+      <button id="muteBtn" title="Mute">🔊</button>
+    </div>
+
     <div class="wheel-area">
       <div class="pointer">▼</div>
       <canvas id="wheel" width="300" height="300"></canvas>
     </div>
-    
+
     <button id="spinBtn">SPIN</button>
     <h2 id="result"></h2>
   </div>
 
+  <canvas id="confetti-canvas"></canvas>
   <script src="script.js"></script>
 </body>
 </html>
