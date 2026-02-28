@@ -4,7 +4,7 @@ const spinBtn = document.getElementById("spinBtn");
 const result = document.getElementById("result");
 
 const snacks = ["seaweed/sushi", "chocolate", "chips", " fruits", "yogurt", "cookie", "protein bar", "spin again"];
-const colors = ["#B45253","#8C1007","#B12C00","#8A0000","#8A2D3B","#A62C2C","#BF3131","#B82132"];
+const colors = ["#B45253","#8C1007","#B12C00","#8A0000","#8A2D3B","#8C1007","#BF3131","#B82132"];
 const numSegments = snacks.length;
 const arc = (2 * Math.PI) / numSegments;
 const cx = canvas.width / 2;
